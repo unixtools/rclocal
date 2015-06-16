@@ -1,0 +1,12 @@
+Priority: optional
+Maintainer: Nathan Neulinger <nneul@neulinger.org>
+Source: rclocal
+Build-Depends: debhelper (>= 8)
+Standards-Version: 3.9.1
+Homepage: 
+
+Package: rclocal
+Section: utils
+Architecture: any
+Description: This contains the rclocal init scripts.
+

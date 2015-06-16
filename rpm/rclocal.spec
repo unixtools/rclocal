@@ -1,7 +1,7 @@
 
 Summary: RCLocal Scripts
 Name: rclocal
-Version: 2.0.8
+Version: 2.1.0
 Release: 1
 License: Distributable
 Group: System Environment/Base
@@ -23,11 +23,14 @@ This contains the init script for the /home/local/adm/rc-(start|stop) facility
 %install
 mkdir -p $RPM_BUILD_ROOT/home/local/adm/rc-start
 mkdir -p $RPM_BUILD_ROOT/home/local/adm/rc-stop
-mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
 
-cp -pr rclocal/rclocal $RPM_BUILD_ROOT/etc/rc.d/init.d/
-cp -pr rclocal/rc.local.start $RPM_BUILD_ROOT/home/local/adm/
-cp -pr rclocal/rc.local.stop $RPM_BUILD_ROOT/home/local/adm/
+if [ -e "/etc/init.d" ]; then
+	mkdir -p $RPM_BUILD_ROOT/etc/init.d
+	cp -pr rclocal/rclocal $RPM_BUILD_ROOT/etc/init.d/
+else if [ -e "/etc/rc.d/init.d" ]; then
+	mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
+	cp -pr rclocal/rclocal $RPM_BUILD_ROOT/etc/rc.d/init.d/
+fi
 
 %clean
 %{__rm} -rf %{buildroot}

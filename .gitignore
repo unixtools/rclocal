@@ -1,0 +1,5 @@
+debian/files
+debian/rclocal.debhelper.log
+debian/rclocal.substvars
+debian/rclocal/
+debian/tmp/

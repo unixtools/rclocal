@@ -1,0 +1,23 @@
+#! /bin/sh
+set -e
+
+echo "postrm called with: $1" >&2
+
+case "$1" in
+	upgrade|remove)
+		update-rc.d -f rclocal remove
+        rmdir /home/local/adm/rc-start 2>/dev/null || true
+        rmdir /home/local/adm/rc-stop 2>/dev/null || true
+		;;
+
+	abort-upgrade|abort-remove|abort-deconfigure|failed-upgrade)
+		;;
+
+	*)
+		echo "postrm called with unknown argument \`$1'" >&2
+		exit 1
+		;;
+esac
+
+#DEBHELPER#
+exit 0

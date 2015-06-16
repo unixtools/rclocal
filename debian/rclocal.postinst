@@ -1,0 +1,23 @@
+#! /bin/sh
+set -e
+
+echo "postinst called with: $1" >&2
+
+case "$1" in
+	configure)
+		update-rc.d rclocal defaults
+		mkdir -p /home/local/adm/rc-start
+		mkdir -p /home/local/adm/rc-stop
+		;;
+
+	abort-upgrade|abort-remove|abort-deconfigure)
+    	;;
+
+	*)
+		echo "postinst called with unknown argument \`$1'" >&2
+		exit 1
+		;;
+esac
+
+#DEBHELPER#
+exit 0

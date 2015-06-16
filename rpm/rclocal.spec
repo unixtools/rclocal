@@ -9,38 +9,47 @@ BuildArch: noarch
 
 Packager: Nathan Neulinger <nneul@neulinger.org>
 
-Source: rclocal.tar.gz
+Source: rclocal-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 This contains the init script for the /home/local/adm/rc-(start|stop) facility
 
 %prep
-%setup -c -q
+%setup -c -q -n rclocal
 
 %build
+cd rclocal-%{version}
+make DESTDIR=$RPM_BUILD_ROOT
 
 %install
+
+cd rclocal-%{version}
+make DESTDIR=$RPM_BUILD_ROOT install
+
 mkdir -p $RPM_BUILD_ROOT/home/local/adm/rc-start
 mkdir -p $RPM_BUILD_ROOT/home/local/adm/rc-stop
 
-if [ -e "/etc/init.d" ]; then
-	mkdir -p $RPM_BUILD_ROOT/etc/init.d
-	cp -pr rclocal/rclocal $RPM_BUILD_ROOT/etc/init.d/
-else if [ -e "/etc/rc.d/init.d" ]; then
-	mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
-	cp -pr rclocal/rclocal $RPM_BUILD_ROOT/etc/rc.d/init.d/
-fi
+mkdir -p $RPM_BUILD_ROOT/etc/init.d
+cp -pr files/rclocal $RPM_BUILD_ROOT/etc/init.d/
 
 %clean
 %{__rm} -rf %{buildroot}
 
-%post
-chkconfig --del rclocal
-chkconfig --add rclocal
-chkconfig rclocal on
+%triggerpostun -- rclocal
+echo "triggerpostun running with $1" >&2
+
+chkconfig rclocal off >/dev/null 2>/dev/null || true
+chkconfig --del rclocal >/dev/null 2>/dev/null || true
+
+if [ "$1" != 0 ]; then
+	chkconfig --add rclocal >/dev/null 2>/dev/null || true
+	chkconfig rclocal on >/dev/null 2>/dev/null || true
+fi
+echo "triggerpostun finished with $1" >&2
 
 %files
-%attr(0755, root, root) /*
+
+%attr(0755, root, root) /etc/init.d/rclocal
 
 %changelog

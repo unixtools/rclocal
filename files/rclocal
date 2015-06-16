@@ -1,0 +1,43 @@
+#!/bin/sh
+# Local RC Startup Script
+#
+# Install as /etc/init.d/rclocal
+#
+# chkconfig: 2345 99 00
+
+#
+
+PATH=/bin:/sbin:/usr/sbin:/usr/bin
+export PATH
+
+case "$1" in
+start)
+	echo "RC Local: start"
+	touch /home/local/adm/rc.local.start.log
+	rm -f /home/local/adm/rc.local.start.oldlog
+	mv /home/local/adm/rc.local.start.log /home/local/adm/rc.local.start.oldlog
+
+	/home/local/adm/rc.local.start 3>&1 1>/home/local/adm/rc.local.start.log 2>&1
+
+	echo "RC Local: completed start"
+	touch /var/lock/subsys/rclocal
+	;;
+
+stop)
+	echo "RC Local: stop"
+	touch /home/local/adm/rc.local.stop.log
+	rm -f /home/local/adm/rc.local.stop.oldlog
+	mv /home/local/adm/rc.local.stop.log /home/local/adm/rc.local.stop.oldlog
+
+	/home/local/adm/rc.local.stop 3>&1 1>/home/local/adm/rc.local.stop.log 2>&1
+
+	echo "RC Local: completed stop"
+	rm -f /var/lock/subsys/rclocal
+	;;
+
+*) 	
+	echo "RC Local: unknown option: $1"
+	;;
+esac
+
+exit 0

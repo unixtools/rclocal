@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#
+# Run all local rc files
+#
+for f in `echo /home/local/adm/rc-stop/rc* | sort -r`
+{
+	if [ -s ${f} ]
+	then
+                echo "RC Local: Stopping $f" >&3
+		echo ""
+		echo "[------------------------------------------------"
+		echo "[   Executing: $f"
+		echo "[   Time: " `date`
+		echo "[  "
+		echo ""
+
+		${f} 2>&1 </dev/null 3>&-
+		
+		echo ""
+		echo "["
+		echo "[   Completed: $f" 
+		echo "[   Time: " `date`
+		echo "[------------------------------------------------"
+		echo ""
+                echo "RC Local: Finished Stopping $f" >&3
+	fi
+}

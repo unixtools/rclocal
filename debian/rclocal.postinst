@@ -5,7 +5,8 @@ echo "postinst called with: $1" >&2
 
 case "$1" in
 	configure)
-		update-rc.d rclocal defaults
+		update-rc.d -f rclocal remove
+		update-rc.d rclocal defaults 99 00
 		mkdir -p /home/local/adm/rc-start
 		mkdir -p /home/local/adm/rc-stop
 		;;

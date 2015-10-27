@@ -1,3 +1,9 @@
+rclocal (2.1.1-1) unstable; urgency=low
+
+  * fixed rc order with fresh build
+
+ -- Nathan Neulinger <nneul@neulinger.org>  Tue, 27 Oct 2015 08:52:13 -0600
+
 rclocal (2.1.0-1) unstable; urgency=low
 
   * generated build

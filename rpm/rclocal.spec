@@ -1,7 +1,7 @@
 
 Summary: RCLocal Scripts
 Name: rclocal
-Version: 2.1.0
+Version: 2.1.1
 Release: 1
 License: Distributable
 Group: System Environment/Base

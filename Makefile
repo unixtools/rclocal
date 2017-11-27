@@ -16,5 +16,5 @@ dist:
 
 deb: dist
 	cp ../rclocal-$(VERSION).tar.gz ../rclocal_$(VERSION).orig.tar.gz
-	dpkg-buildpackage
+	dpkg-buildpackage -us -uc
 	rm ../rclocal_$(VERSION).orig.tar.gz
